@@ -1,0 +1,61 @@
+//application styling
+//based on tseczka-css-framework with multiple imports
+@root: "../bower_components/tseczka-CSS-framework/less";
+
+@import "@{root}/vars.less";
+@import "override-vars.less";
+@import "@{root}/functions.less";
+
+//override function
+.animate-all{
+    transition: all 0.2s linear;
+}
+
+@import "@{root}/typography.less";
+@import "@{root}/grid.less";
+@import "@{root}/buttons.less";
+@import "@{root}/nav.less";
+@import "@{root}/footer.less";
+@import "@{root}/form.less";
+
+//extensions
+@import "@{root}/extensions/lists.less";
+
+//new app styles
+.nav-logo img {
+    max-height: 92%;
+    padding-top: 3px;
+}
+
+.nav-main .nav-title.secondary, .secondary {
+    color: @secondary-color;
+    &:hover {
+        color: @secondary-color-dark;
+    }
+}
+
+.secondary-dark {
+    color: @secondary-color-dark;
+}
+
+.button {
+    &:hover {
+        background-color: @main-color-light;
+    }
+}
+
+.comment-block > li{
+    .animate-all;
+}
+
+.comment-block > li.person-like {
+    border-right: 10px solid green;
+}
+
+.comment-block > li.person-block {
+    border-right: 10px solid red;
+}
+
+.comment-block > li.person-ignore {
+    border-right: 10px solid orange;
+}

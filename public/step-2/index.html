@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <title>Step 2 - </title>
+        <link href="/bower_components/normalize.css/normalize.css" rel="stylesheet" type="text/css">
+        <link href="/css/style.css" rel="stylesheet" type="text/css">
+
+        <!-- react dependencies -->
+        <script src="/bower_components/react/react.js"></script>
+        <script src="/bower_components/react/JSXTransformer.js"></script>
+    </head>
+    <body>
+        <div class="nav-container nav-main nav-right">
+            <div class="nav">
+                <a href="/" class="nav-title secondary">ReactJS Example</a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="col-3">
+                &nbsp;
+            </div>
+            <div class="col-6">
+                <h3>Step 2</h3>
+                <!-- actual code here -->
+                <div id="content-1"></div>
+                <div id="content-2"></div>
+             </div>
+        </div>
+
+        <script type="text/jsx">
+            var SecondaryButton = React.createClass({
+                render: function() {
+                    return (
+                        <span className="button secondary">
+                            {this.props.children}
+                        </span>
+                    )
+                }
+            });
+
+            var ContentBlock = React.createClass({
+                render: function() {
+                    return (
+                        <SecondaryButton>
+                            My button
+                        </SecondaryButton>
+                    );
+                }
+            });
+
+            React.render(
+                <ContentBlock />,
+                document.getElementById('content-1')
+            );
+
+            var BetterButton = React.createClass({
+                render: function() {
+                    var classString = 'button ';
+                    classString += this.props.buttonType;
+
+                    return (
+                        <span className={classString}>
+                            {this.props.children}
+                        </span>
+                    );
+                }
+            });
+
+            React.render(
+                <BetterButton buttonType="secondary">
+                    My Better Button
+                </BetterButton>,
+                document.getElementById('content-2')
+            )
+        </script>
+    </body>
+</html>

@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>Step 1 - text rendering</title>
+        <link href="/bower_components/normalize.css/normalize.css" rel="stylesheet" type="text/css">
+        <link href="/css/style.css" rel="stylesheet" type="text/css">
+
+        <!-- react dependencies -->
+        <script src="/bower_components/react/react.js"></script>
+        <script src="/bower_components/react/JSXTransformer.js"></script>
+    </head>
+    <body>
+        <div class="nav-container nav-main nav-right">
+            <div class="nav">
+                <a href="/" class="nav-title secondary">ReactJS Example</a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="col-3">
+                &nbsp;
+            </div>
+            <div class="col-6">
+                <h3>Step 1</h3>
+                <!-- actual code here -->
+                <div id="example"></div>
+
+                <hr />
+
+                <div id="example-2"></div>
+
+                <hr />
+
+                <div id="example-3"></div>
+             </div>
+        </div>
+
+        <script type="text/jsx">
+            React.render(
+                <p>This is rendered text.</p>,
+                document.getElementById('example')
+            );
+
+            //starting to get complicated
+            var GeneratedText = React.createClass({
+                render: function() {
+                    return (
+                      <p className="secondary">
+                        Component-rendered text
+                      </p>
+                    );
+                }
+            });
+
+            React.render(
+                <GeneratedText />,
+                document.getElementById('example-2')
+            );
+
+            var ContentText = React.createClass({
+                render: function() {
+                    return (
+                        <span>
+                            Composed components rendered.
+                        </span>
+                    );
+                }
+            });
+
+            var SecondaryContent = React.createClass({
+                render: function() {
+                    return (
+                      <p className="secondary">
+                        <ContentText />
+                      </p>
+                    );
+                }
+            });
+
+            React.render(
+                <SecondaryContent />,
+                document.getElementById('example-3')
+            );
+
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <title>Step 5 - Fully featured</title>
+        <link href="/bower_components/normalize.css/normalize.css" rel="stylesheet" type="text/css">
+        <link href="/css/style.css" rel="stylesheet" type="text/css">
+
+        <!-- react dependencies -->
+        <script src="/bower_components/react/react.js"></script>
+        <script src="/bower_components/react/JSXTransformer.js"></script>
+
+        <script src="http://code.jquery.com/jquery-2.1.3.js"></script>
+    </head>
+    <body>
+        <div class="nav-container nav-main nav-right">
+            <div class="nav">
+                <a href="/" class="nav-title secondary">ReactJS Example</a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="col-3">
+                &nbsp;
+            </div>
+            <div class="col-6">
+                <h3>Step 5</h3>
+                <!-- actual code here -->
+                <p>Note: The user listing is randomized on each API call. Watch for DOM changes</p>
+                <div id="content"></div>
+             </div>
+        </div>
+
+        <script type="text/jsx">
+            var MetaList = React.createClass({
+                render: function() {
+                    return (
+                        <ul className="list-meta">
+                            <li><a href="#" className="button">Like person</a></li>
+                            <li><a href="#" className="button">Block</a></li>
+                            <li><a href="#" className="button">Ignore</a></li>
+                        </ul>
+                    );
+                }
+            });
+
+            var Person = React.createClass({
+                render: function() {
+                    return (
+                        <li className="">
+                            <h4 className="secondary-dark">
+                                {this.props.person.name}
+                            </h4>
+                            <p>
+                                {this.props.person.description}
+                            </p>
+                            <MetaList />
+                        </li>
+                    );
+                }
+            });
+
+            var PeopleList = React.createClass({
+                render: function() {
+                    //no "ng-repeat" or "foreach"
+                    var personNodes = this.props.data.map(function(person) {
+                        return (
+                            <Person person={person} key={person.name} />
+                        );
+                    });
+
+                    return (
+                        <ul className="block-list comment-block">
+                            {personNodes}
+                        </ul>
+                    );
+                }
+            });
+
+            var People = React.createClass({
+                loadPeople: function() {
+                    $.ajax({
+                        url: '/api/users',
+                        dataType: 'json',
+                        success: function(data) {
+                            //changing state
+                            this.setState({data: data})
+                        }.bind(this),
+                        error: function() {
+
+                        }
+                    });
+                },
+                getInitialState: function() {
+                    //set initial empty dataset
+                    return {data: []};
+                },
+                componentDidMount: function() {
+                    this.loadPeople();
+                    setInterval(this.loadPeople, 2000);
+                },
+                render: function() {
+                    return (
+                        <PeopleList data={this.state.data} />
+                    );
+                }
+            });
+
+            React.render(
+                <People />,
+                document.getElementById('content')
+            );
+        </script>
+    </body>
+</html>

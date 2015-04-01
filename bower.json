@@ -1,0 +1,9 @@
+{
+  "name": "Popstar CMS",
+  "version": "0.1.0",
+  "dependencies": {
+    "tseczka-CSS-framework": "v0.1.x",
+    "normalize.css": "3.0.x",
+    "react": "~0.13.1"
+  }
+}

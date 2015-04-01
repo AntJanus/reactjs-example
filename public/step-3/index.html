@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <title>Step 3 - component data</title>
+        <link href="/bower_components/normalize.css/normalize.css" rel="stylesheet" type="text/css">
+        <link href="/css/style.css" rel="stylesheet" type="text/css">
+
+        <!-- react dependencies -->
+        <script src="/bower_components/react/react.js"></script>
+        <script src="/bower_components/react/JSXTransformer.js"></script>
+    </head>
+    <body>
+        <div class="nav-container nav-main nav-right">
+            <div class="nav">
+                <a href="/" class="nav-title secondary">ReactJS Example</a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="col-3">
+                &nbsp;
+            </div>
+            <div class="col-6">
+                <h3>Step 3</h3>
+                <!-- actual code here -->
+                <div id="content"></div>
+             </div>
+        </div>
+
+        <script type="text/jsx">
+            var data = [
+                {
+                    name: "Antonin",
+                    description: "Web developer"
+                },
+                {
+                    name: "Juno",
+                    description: "Web designer"
+
+                },
+                {
+                    name: "Alix",
+                    description: "Web designer"
+
+                }
+            ];
+
+            var MetaList = React.createClass({
+                render: function() {
+                    return (
+                        <ul className="list-meta">
+                            <li><a href="#">Like person</a></li>
+                        </ul>
+                    );
+                }
+            });
+
+            var Person = React.createClass({
+                render: function() {
+                    return (
+                        <li className="">
+                            {this.props.person.name} | {this.props.person.description}
+                            <MetaList />
+                        </li>
+                    );
+                }
+            });
+
+            var PeopleList = React.createClass({
+                render: function() {
+                    //no "ng-repeat" or "foreach"
+                    var personNodes = this.props.data.map(function(person) {
+                        return (
+                            <Person person={person} key={person.name} />
+                        );
+                    });
+
+                    return (
+                        <ul className="block-list comment-block">
+                            {personNodes}
+                        </ul>
+                    );
+                }
+            });
+
+            React.render(
+                <PeopleList data={data} />,
+                document.getElementById('content')
+            );
+        </script>
+    </body>
+</html>

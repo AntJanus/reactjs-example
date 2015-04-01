@@ -1,0 +1,168 @@
+<html>
+    <head>
+        <title>Step 6 - Fully featured</title>
+        <link href="/bower_components/normalize.css/normalize.css" rel="stylesheet" type="text/css">
+        <link href="/css/style.css" rel="stylesheet" type="text/css">
+
+        <!-- react dependencies -->
+        <script src="/bower_components/react/react.js"></script>
+        <script src="/bower_components/react/JSXTransformer.js"></script>
+
+        <script src="http://code.jquery.com/jquery-2.1.3.js"></script>
+    </head>
+    <body>
+        <div class="nav-container nav-main nav-right">
+            <div class="nav">
+                <a href="/" class="nav-title secondary">ReactJS Example</a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="col-3">
+                &nbsp;
+            </div>
+            <div class="col-6">
+                <h3>Step 6</h3>
+                <!-- actual code here -->
+                <p>Note: The user listing is randomized on each API call. Watch for DOM changes</p>
+                <div id="content"></div>
+             </div>
+        </div>
+
+        <script type="text/jsx">
+            var MetaList = React.createClass({
+                getInitialState: function() {
+                    //set initial empty dataset
+                    return {like: false, block: false, ignore: false};
+                },
+                handleAction: function(e) {
+                    var state = this.state;
+                    var type = this.types[e.target.innerHTML];
+                    state[type] = !state[type];
+                    e.preventDefault();
+                    this.setState(state);
+                    this.props.onActionStateChange(state);
+                },
+                types: {
+                    like: 'like',
+                    unlike: 'like',
+                    block: 'block',
+                    unblock: 'block',
+                    follow: 'ignore',
+                    ignore: 'ignore'
+                },
+                render: function() {
+                    var like = this.state.like ? 'unlike' : 'like';
+                    var block = this.state.block ? 'unblock' : 'block';
+                    var ignore = this.state.ignore ? 'follow' : 'ignore';
+
+                    return (
+                        <ul className="list-meta">
+                            <li><a href="#" className="button" onClick={this.handleAction}>{like}</a></li>
+                            <li><a href="#" className="button" onClick={this.handleAction}>{block}</a></li>
+                            <li><a href="#" className="button" onClick={this.handleAction}>{ignore}</a></li>
+                        </ul>
+                    );
+                }
+            });
+
+            var Person = React.createClass({
+                getInitialState: function() {
+                    //set initial empty dataset
+                    return { actions: {like: false, block: false, ignore: false}};
+                },
+                handleActionState: function(newState) {
+                    var state = this.state;
+                    state.actions = newState;
+                    this.setState(state);
+                },
+                buildClassNames: function() {
+                    var actions = this.state.actions;
+                    var classes = [];
+
+                    for(var action in actions) {
+                        if(actions[action]) {
+                            classes.push('person-' + action);
+                        }
+                    }
+
+                    return classes.join(' ');
+                },
+                render: function() {
+                    var classes = this.buildClassNames();
+
+                    return (
+                        <li className={classes}>
+                            <h4 className="secondary-dark">
+                                {this.props.person.name}
+                            </h4>
+                            <p>
+                                {this.props.person.description}
+                            </p>
+                            <MetaList onActionStateChange={this.handleActionState} />
+                        </li>
+                    );
+                }
+            });
+
+            var PeopleList = React.createClass({
+                render: function() {
+                    //no "ng-repeat" or "foreach"
+                    var personNodes = this.props.data.map(function(person) {
+                        return (
+                            <Person person={person} key={person.name} />
+                        );
+                    });
+
+                    return (
+                        <ul className="block-list comment-block">
+                            {personNodes}
+                        </ul>
+                    );
+                }
+            });
+
+            var People = React.createClass({
+                loadPeople: function() {
+                    $.ajax({
+                        url: '/api/users',
+                        dataType: 'json',
+                        success: function(data) {
+                            data.sort(function(a, b) {
+                                if(a.name < b.name) {
+                                    return -1;
+                                } else if(a.name > b.name) {
+                                    return 1;
+                                } else {
+                                    return 0;
+                                }
+                            });
+                            //changing state
+                            this.setState({data: data})
+                        }.bind(this),
+                        error: function() {
+
+                        }
+                    });
+                },
+                getInitialState: function() {
+                    //set initial empty dataset
+                    return {data: []};
+                },
+                componentDidMount: function() {
+                    this.loadPeople();
+                    setInterval(this.loadPeople, 2000);
+                },
+                render: function() {
+                    return (
+                        <PeopleList data={this.state.data} />
+                    );
+                }
+            });
+
+            React.render(
+                <People />,
+                document.getElementById('content')
+            );
+        </script>
+    </body>
+</html>
