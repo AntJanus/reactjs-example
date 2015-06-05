@@ -60,9 +60,9 @@
             var PeopleList = React.createClass({
                 render: function() {
                     //no "ng-repeat" or "foreach"
-                    var personNodes = this.props.data.map(function(person) {
+                    var personNodes = this.props.data.map(function(person, ind) {
                         return (
-                            <Person person={person} key={person.name} />
+                            <Person person={person} key={ind} />
                         );
                     });
 

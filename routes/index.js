@@ -17,7 +17,15 @@ app.get('/api/feed', function(req,res) {
 });
 
 app.get('/api/users', function(req,res) {
+  var query = req.query;
+
   var feed = reader.getFeed(['users'], 0, 0, function(result) {
+    if(query.random === 'true') {
+      result.sort(function() {
+        return (Math.round(Math.random())-0.5);
+      });
+    }
+
     res.send(result);
   });
 });
