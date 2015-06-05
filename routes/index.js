@@ -9,6 +9,8 @@ var _         = require('lodash');
 var async     = require('async');
 var md        = require('marked');
 
+app.disable('etag');
+
 //routes
 app.get('/api/feed', function(req,res) {
   var feed = reader.getFeed(['feeds'], 0, 0, function(result) {
