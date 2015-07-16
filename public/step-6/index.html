@@ -105,6 +105,11 @@
             var PeopleList = React.createClass({
                 render: function() {
                     //no "ng-repeat" or "foreach"
+                    if(this.props.data.length === 0) {
+                      return(
+                        <h4>No people in the list</h4>
+                      )
+                    }
                     var personNodes = this.props.data.map(function(person) {
                         return (
                             <Person person={person} key={person.name} />

@@ -60,9 +60,9 @@
             var PeopleList = React.createClass({
                 render: function() {
                     //no "ng-repeat" or "foreach"
-                    var personNodes = this.props.data.map(function(person) {
+                    var personNodes = this.props.data.map(function(person, ind) {
                         return (
-                            <Person person={person} key={person.name} />
+                            <Person person={person} key={ind} />
                         );
                     });
 
@@ -77,7 +77,7 @@
             var People = React.createClass({
                 loadPeople: function() {
                     $.ajax({
-                        url: '/api/users',
+                        url: '/api/users?random=true',
                         dataType: 'json',
                         success: function(data) {
                             //changing state
