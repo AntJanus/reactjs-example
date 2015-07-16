@@ -71,9 +71,7 @@
                     return { actions: {like: false, block: false, ignore: false}};
                 },
                 handleActionState: function(newState) {
-                    var state = this.state;
-                    state.actions = newState;
-                    this.setState(state);
+                    this.setState({ actions: newState });
                 },
                 buildClassNames: function() {
                     var actions = this.state.actions;

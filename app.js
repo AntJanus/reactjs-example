@@ -13,7 +13,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var errorHandler = require('errorhandler');
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3001);
 app.use(serveStatic(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
